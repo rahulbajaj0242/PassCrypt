@@ -22,7 +22,7 @@ def menu():
   print('4. See all passwords')
   print('0. Exit')
 
-  i = input('\nSelect option from main menu (1/2/0): ')
+  i = input('\nSelect option from main menu (1/2/3/4/0): ')
 
   if i == '0': exit()
 
