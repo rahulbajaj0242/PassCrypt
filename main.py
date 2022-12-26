@@ -1,16 +1,18 @@
 import psycopg2
-
+import maskpass
 
 master_password = "secretpassword"
 
 def startup():
   print('Welcome to your own personal Password Manager!')
-  i  = input('\n\nFirst, Please add the master password to authenticate yourself: ')
+  print('\n\nFirst, Please add the master password to authenticate yourself: ', end='')
+  i = maskpass.askpass()
 
   if(i == master_password):
     return '1'
   else:
     return '0'
+
 
 def menu():
   print('1. Add new password')
@@ -47,6 +49,11 @@ def main():
       cur.execute(f'INSERT INTO passwords(username, password, website) VALUES(%s, %s, %s);', (username, password, website))
 
 
+    if m == '2':
+      cur.execute('SELECT * FROM passwords;')
+      data = cur.fetchall()
+      print(data)
+
     # Make the changes to the database persistent
     conn.commit()
 
@@ -56,9 +63,6 @@ def main():
 
   except (Exception, psycopg2.Error) as error :
     print ("Error while connecting to PostgreSQL", error)
-
-
-
 
 
 
