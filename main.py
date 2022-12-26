@@ -1,5 +1,6 @@
 import psycopg2
 import maskpass
+from database import createTable, addPassword, showAllRecords, showPasswordForWebsite, showAllPasswordForEmail
 
 master_password = "secretpassword"
 
@@ -15,54 +16,59 @@ def startup():
 
 
 def menu():
-  print('1. Add new password')
-  print('2. See all passwords')
+  print('\n1. Add new password')
+  print('2. See password for a website')
+  print('3. See all passwords attached to an email')
+  print('4. See all passwords')
   print('0. Exit')
 
-  i = input('Select option from main menu (1/2/0): ')
+  i = input('\nSelect option from main menu (1/2/0): ')
 
-  if i == '3': exit()
+  if i == '0': exit()
 
   return i
+
+
+# def encryptPassword(password):
+#   pass
 
   
 
 def main():
   
-  try:
-    conn = psycopg2.connect("dbname='postgres' user='postgres' host='localhost' password='postgres' port='5432'")
+  createTable()
+  
+  auth = startup()
 
-    cur = conn.cursor()
-
-    # create a table called passwords with fields id, username, password and website
-    # cur.execute('CREATE TABLE passwords(id serial PRIMARY KEY, username varchar(255), password varchar(255), website varchar(255));')
-
-    auth = startup()
+  while True:
     m = menu() if auth == '1' else print("Wrong Password! Exiting...")
-
+    
     if m == '1':
       print('Please add following details: ')
+      email = input('Email address: ')
       website = input('Website Name: ')
       username = input('Username: ')
       password = input('Password: ')
 
-      cur.execute(f'INSERT INTO passwords(username, password, website) VALUES(%s, %s, %s);', (username, password, website))
+      # updatedPassword = encryptPassword(password)
 
+      addPassword(username, password, email, website)
+
+      print('\nPassword successfully added!')
 
     if m == '2':
-      cur.execute('SELECT * FROM passwords;')
-      data = cur.fetchall()
+      website = input('Enter website name: ')
+      records = showPasswordForWebsite(website)
+      print(records)
+
+    if m == '3':
+      email = input('Enter email address: ')
+      records = showAllPasswordForEmail(email)
+      print(records)
+
+    if m == '4':
+      data = showAllRecords()
       print(data)
-
-    # Make the changes to the database persistent
-    conn.commit()
-
-    # Close communication with the database
-    cur.close()
-    conn.close()
-
-  except (Exception, psycopg2.Error) as error :
-    print ("Error while connecting to PostgreSQL", error)
 
 
 
