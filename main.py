@@ -9,16 +9,16 @@ def startup():
 
 
 def print_details(list):
-  print('-'*10)
-  
+  print('\n' + ('-'*20))
+
   for record in list:
-    print(f"\nUsername: {record[1]}")
+    print(f"Username: {record[1]}")
     decrypted = decrypt_password(record[2])
     print(f"Password: {decrypted}")
     print(f"Email: {record[3]}")
     print(f"Website: {record[4]}")
 
-  print('-'*10)
+  print('-'*20)
 
 def menu():
   print('\n1. Add new password')
