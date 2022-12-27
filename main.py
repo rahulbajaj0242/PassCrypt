@@ -1,6 +1,6 @@
 from database import createTable, addPassword, showAllRecords, showPasswordForWebsite, showAllPasswordForEmail
 
-from passwords import authenticate, encrypt_password, decrypt_password
+from passwords import authenticate, encrypt_password, decrypt_password, suggest_password
 
 def startup():
   print('Welcome to your own personal Password Manager!')
@@ -17,7 +17,8 @@ def print_details(list):
     print(f"Password: {decrypted}")
     print(f"Email: {record[3]}")
     print(f"Website: {record[4]}")
-
+    print('-'*20 + '\n')
+  
   print('-'*20)
 
 def menu():
@@ -57,7 +58,9 @@ def main():
       email = input('Email address: ')
       website = input('Website Name: ')
       username = input('Username: ')
-      password = input('Password: ')
+      choice = input("Would you like us to suggest you a password (1) or manually enter one (2): ")
+
+      password = suggest_password() if choice == '1' else input('Password: ')
 
       encrypt_pass = encrypt_password(password)
 
