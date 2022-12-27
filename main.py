@@ -1,6 +1,6 @@
 from database import createTable, addPassword, showAllRecords, showPasswordForWebsite, showAllPasswordForEmail
 
-from passwords import authenticate
+from passwords import authenticate, encrypt_password, decrypt_password
 
 def startup():
   print('Welcome to your own personal Password Manager!')
@@ -20,10 +20,6 @@ def menu():
   if i == '0': exit()
 
   return i
-
-
-# def encryptPassword(password):
-#   pass
 
   
 
@@ -51,21 +47,23 @@ def main():
       username = input('Username: ')
       password = input('Password: ')
 
-      # updatedPassword = encryptPassword(password)
+      encrypt_pass = encrypt_password(password)
 
-      addPassword(username, password, email, website)
+      addPassword(username, encrypt_pass, email, website)
 
       print('\nPassword successfully added!')
 
     if m == '2':
       website = input('Enter website name: ')
-      records = showPasswordForWebsite(website)
-      print(records)
+      encrypt_pass = showPasswordForWebsite(website)[0][0]
+      decrypted = decrypt_password(encrypt_pass)
+      print(decrypted)
 
     if m == '3':
       email = input('Enter email address: ')
       records = showAllPasswordForEmail(email)
       print(records)
+      
 
     if m == '4':
       data = showAllRecords()
