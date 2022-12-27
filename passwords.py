@@ -2,6 +2,8 @@ import os
 import bcrypt
 import dotenv
 import maskpass
+import secrets
+import string
 from cryptography.fernet import Fernet, InvalidToken
 from dotenv.main import load_dotenv
 
@@ -88,3 +90,17 @@ def decrypt_password(encrypt_pass):
     return decrypted.decode()
   except InvalidToken as e:
     print("invalide Token")
+
+def suggest_password():
+  lower = string.ascii_lowercase
+  upper = string.ascii_uppercase
+  num = string.digits
+  symbols = string.punctuation
+
+  all = lower + upper + num + symbols
+
+  password = ''.join(secrets.choice(all) for i in range(10))
+
+  print(f'Your suggested password is: {password}')
+
+  return password
