@@ -33,7 +33,7 @@ def showPasswordForWebsite(website):
   conn = connection()
   cur = conn.cursor()
 
-  cur.execute('SELECT password FROM passwords WHERE WEBSITE LIKE %s', (website,))
+  cur.execute('SELECT * FROM passwords WHERE WEBSITE LIKE %s', (website,))
   records = cur.fetchall()
 
   cur.close()

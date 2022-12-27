@@ -8,6 +8,18 @@ def startup():
   return authenticate()
 
 
+def print_details(list):
+  print('-'*10)
+  
+  for record in list:
+    print(f"\nUsername: {record[1]}")
+    decrypted = decrypt_password(record[2])
+    print(f"Password: {decrypted}")
+    print(f"Email: {record[3]}")
+    print(f"Website: {record[4]}")
+
+  print('-'*10)
+
 def menu():
   print('\n1. Add new password')
   print('2. See password for a website')
@@ -55,19 +67,18 @@ def main():
 
     if m == '2':
       website = input('Enter website name: ')
-      encrypt_pass = showPasswordForWebsite(website)[0][0]
-      decrypted = decrypt_password(encrypt_pass)
-      print(decrypted)
+      records = showPasswordForWebsite(website)
+      print_details(records)
 
     if m == '3':
       email = input('Enter email address: ')
       records = showAllPasswordForEmail(email)
-      print(records)
+      print_details(records)
       
 
     if m == '4':
-      data = showAllRecords()
-      print(data)
+      records = showAllRecords()
+      print_details(records)
 
 
 
