@@ -1,7 +1,8 @@
 import os
 import bcrypt
 import dotenv
-from cryptography.fernet import Fernet
+import maskpass
+from cryptography.fernet import Fernet, InvalidToken
 from dotenv.main import load_dotenv
 
 
@@ -17,7 +18,7 @@ def hash_password(pas):
 
 
 def check_master_password():
-  user_pass = input("First, authenticate yourself\nEnter master password: ")
+  user_pass = maskpass.askpass(prompt="\nFirst, authenticate yourself\nEnter master password: ")
 
   user_bytes = user_pass.encode('utf-8')
 
@@ -58,3 +59,32 @@ def authenticate():
     auth = check_master_password()
 
     return auth
+
+
+def generate_key():
+  key = Fernet.generate_key()
+  os.environ["KEY"] = key.decode()
+  dotenv.set_key('pass.env', 'KEY', key.decode())
+
+def encrypt_password(user_pass):
+
+  # creates the key if it already doesn't exist
+  if "KEY" in os.environ:
+    pass
+  else:
+    generate_key()
+
+  f = Fernet(os.environ["KEY"])
+  encrypt = f.encrypt(user_pass.encode())
+
+  return encrypt.decode()
+  
+
+def decrypt_password(encrypt_pass):
+  try:
+    f = Fernet(os.environ["KEY"])
+    decrypted = f.decrypt(encrypt_pass.encode())
+
+    return decrypted.decode()
+  except InvalidToken as e:
+    print("invalide Token")
