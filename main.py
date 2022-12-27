@@ -1,5 +1,3 @@
-import psycopg2
-import maskpass
 from database import createTable, addPassword, showAllRecords, showPasswordForWebsite, showAllPasswordForEmail
 
 from passwords import authenticate
