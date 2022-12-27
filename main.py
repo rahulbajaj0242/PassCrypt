@@ -2,17 +2,12 @@ import psycopg2
 import maskpass
 from database import createTable, addPassword, showAllRecords, showPasswordForWebsite, showAllPasswordForEmail
 
-master_password = "secretpassword"
+from passwords import authenticate
 
 def startup():
   print('Welcome to your own personal Password Manager!')
-  print('\n\nFirst, Please add the master password to authenticate yourself: ', end='')
-  i = maskpass.askpass()
-
-  if(i == master_password):
-    return '1'
-  else:
-    return '0'
+  
+  return authenticate()
 
 
 def menu():
@@ -36,12 +31,20 @@ def menu():
 
 def main():
   
+  # create password table if it doesn't exist
   createTable()
   
+  # authenticate the user
   auth = startup()
 
   while True:
-    m = menu() if auth == '1' else print("Wrong Password! Exiting...")
+    m = 0
+
+    if auth:
+      m = menu()
+    else:
+      print("Wrong Password! Exiting...")
+      exit()
     
     if m == '1':
       print('Please add following details: ')
