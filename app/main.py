@@ -3,7 +3,7 @@ from database import createTable, addPassword, showAllRecords, showPasswordForWe
 from passwords import authenticate, encrypt_password, decrypt_password, suggest_password
 
 def startup():
-  print('Welcome to your own personal Password Manager!')
+  print('Welcome to your own personal Password Manager!\n')
   
   return authenticate()
 

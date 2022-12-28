@@ -3,6 +3,7 @@ import psycopg2
 
 def connection():
   try:
+    # change localhost to host.docker.internal when password-app is not in docker
     conn = psycopg2.connect("dbname='test' user='test' host='localhost' password='test' port='5432'")
   except Exception as e:
     print(e)
