@@ -20,7 +20,7 @@ def hash_password(pas):
 
 
 def check_master_password():
-  user_pass = maskpass.askpass(prompt="\nFirst, authenticate yourself\nEnter master password: ")
+  user_pass = maskpass.askpass(prompt="First, authenticate yourself\nEnter master password: ")
 
   user_bytes = user_pass.encode('utf-8')
 
