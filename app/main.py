@@ -3,25 +3,26 @@ from database import createTable, addPassword, showAllRecords, showPasswordForWe
 from passwords import authenticate, encrypt_password, decrypt_password, suggest_password
 
 def startup():
-  print('Welcome to your own personal Password Manager!\n')
+  print('\nWelcome to your own personal Password Manager!\n')
   
   return authenticate()
 
 
 def print_details(list):
-  print('\n' + ('-'*20))
+  print("\n********* Records *********\n")
 
   for record in list:
+    print('-'*20 + '\n')
     print(f"Username: {record[1]}")
     decrypted = decrypt_password(record[2])
     print(f"Password: {decrypted}")
-    print(f"Email: {record[3]}")
-    print(f"Website: {record[4]}")
-    print('-'*20 + '\n')
+    print(f"Email:    {record[3]}")
+    print(f"Website:  {record[4]}")
+    print('\n' + '-'*20 + '\n')
   
-  print('-'*20)
 
 def menu():
+  print("\n********* Menu ********")
   print('\n1. Add new password')
   print('2. See password for a website')
   print('3. See all passwords attached to an email')
