@@ -1,6 +1,5 @@
 import psycopg2 
 
-
 def connection():
   try:
     # change localhost to host.docker.internal when password-app is not in docker
@@ -15,6 +14,16 @@ def createTable():
   cur = conn.cursor()
 
   cur.execute('CREATE TABLE IF NOT EXISTS passwords(id serial PRIMARY KEY, username varchar(255) NOT NULL, password varchar(255) NOT NULL, email varchar(255), website varchar(255) NOT NULL);')
+
+  conn.commit()
+  cur.close()
+  conn.close()
+
+def deleteAllRecordsInTable():
+  conn = connection()
+  cur = conn.cursor()
+
+  cur.execute('DELETE FROM passwords')
 
   conn.commit()
   cur.close()
