@@ -6,7 +6,7 @@ import secrets
 import string
 from cryptography.fernet import Fernet, InvalidToken
 from dotenv.main import load_dotenv
-
+from database import deleteAllRecordsInTable
 
 
 def hash_password(pas):
@@ -40,7 +40,11 @@ def create_master_password():
   # add hashed password to environment variables and then add it into pass.env file
   os.environ['MASTER'] = hash_mas_pass
   dotenv.set_key('pass.env', 'MASTER', os.environ['MASTER'])
-
+  deleteAllRecordsInTable()
+  if "KEY" in os.environ:
+    pass
+  else:
+    generate_key()
 
 def authenticate():
   found_dotenv = os.path.exists('pass.env')
